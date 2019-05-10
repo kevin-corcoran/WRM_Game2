@@ -1,4 +1,4 @@
-extends KinematicBody2D
+ extends KinematicBody2D
 
 var speed = 3
 var move_direction = Vector2(0, 0)
@@ -49,3 +49,7 @@ func move_player():
 #	if(Input.is_key_pressed(KEY_S)):
 #		move_direction += Vector2(0, 1)
 	move_and_collide(move_direction.normalized() * speed)
+	
+#func _on_body_entered(body):
+##	body.free()
+#	print("collision!!!!!!!")

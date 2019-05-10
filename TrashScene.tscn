@@ -1,13 +1,29 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/TrashScene.gd" type="Script" id=1]
 [ext_resource path="res://scripts/Bins.gd" type="Script" id=2]
 [ext_resource path="res://assets/landfill_bin.png" type="Texture" id=3]
+[ext_resource path="res://scripts/trash_behavior.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 80, 140 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="RectangleShape2D" id=4]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
 
 [node name="Node" type="Node" index="0"]
 
@@ -35,12 +51,54 @@ _sections_unfolded = [ "Animation", "Offset", "Region", "Transform", "Z Index" ]
 
 shape = SubResource( 1 )
 
+[node name="Area2D" type="Area2D" parent="Player/Bins" index="2"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Bins/Area2D" index="0"]
+
+shape = SubResource( 2 )
+
 [node name="Timer" type="Timer" parent="." index="1"]
 
 process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = true
+
+[node name="Trash" type="Node" parent="." index="2"]
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="Trash" index="0"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trash/KinematicBody2D" index="0"]
+
+shape = SubResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="Trash/KinematicBody2D" index="1"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trash/KinematicBody2D/Area2D" index="0"]
+
+shape = SubResource( 4 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
