@@ -28,7 +28,7 @@ func trash():
 
 
 func random_trash():
-	var x_pos = randi() % int(get_viewport().size.x - get_viewport().size.x / 4)
+	var x_pos = randi() % int(get_viewport().size.x - get_viewport().size.x / 3)
 	var y_pos = 0
 	
 	var bin_type = bins[randi() % bins.size()]
@@ -37,6 +37,7 @@ func random_trash():
 #	print(bin_type)
 #	var node = Node.new()
 	var body = KinematicBody2D.new()
+	body.set_name(bin_type)
 	body.position = Vector2(x_pos, y_pos)
 #	node.add_child(body)
 	add_child(body)
@@ -48,22 +49,27 @@ func random_trash():
 	
 	var shape = RectangleShape2D.new()
 	#resize the shape to be the same size as the sprite texture
-	shape.set_extents(Vector2(sprite.get_texture().get_width()/2,sprite.get_texture().get_height()/2))    
+	shape.set_extents(Vector2(sprite.get_texture().get_width()/2, sprite.get_texture().get_height()/2))    
 	var collision_shape = CollisionShape2D.new()
 	collision_shape.set_shape(shape)
 	body.add_child(collision_shape)
+
 	
 	# might not be necessary
 	var area = Area2D.new()
 	var area_collision = CollisionShape2D.new()
 	var area_shape = RectangleShape2D.new()
-	area_shape.set_extents(Vector2(sprite.get_texture().get_width()/2,sprite.get_texture().get_height()/2)) 
+	area_shape.set_extents(Vector2(sprite.get_texture().get_width()/2, sprite.get_texture().get_height()/2)) 
 	area_collision.set_shape(area_shape)
-	body.add_child(area)
 	area.add_child(area_collision)
+	body.add_child(area)
 	
 	body.set_script(load("res://scripts/trash_behavior.gd"))
 	body.notification(NOTIFICATION_READY)
+	body.name = bin_type
+#	print("TrashScene.gd")
+#	print(body.name)
+#	print(bin_type)
 	
 			
 #	num_trash += num_trash
@@ -76,14 +82,14 @@ func random_trash():
 #
 #func _on_body_entered(body):
 ##	body.free()
-#	print("collision!")
-#  if body.get_name() == "player":
+#	print("collision! in trashscene")
+##  if body.get_name() == "player":
  
 	
 
 # Timer node set to call random_trash() every 1 second in the inspector, programatically changed everytime after.
 func _on_Timer_timeout():
 	random_trash()
-	my_timer.wait_time = rand_range(2,10)
+	my_timer.wait_time = rand_range(3,7)
 	
 #	pass # replace with function body

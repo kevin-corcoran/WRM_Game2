@@ -10,8 +10,8 @@ var compost_items = dir_contents("res://assets/compost/")
 var bcp_items = dir_contents("res://assets/bcp/")
 var paper_items = dir_contents("res://assets/paper/")
 
-#var states = [landfill_bin, compost_bin, bcp_bin, paper_bin]
-#var current_state = 0;
+var states = [landfill_bin, compost_bin, bcp_bin, paper_bin]
+var current_state = 0;
 
 var trash = {
 	'landfill' : [],
